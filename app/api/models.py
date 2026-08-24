@@ -47,3 +47,39 @@ class ChatResponse(BaseModel):
     usage: UsageInfo = Field(default_factory=UsageInfo)
     request_id: str
     latency_ms: int
+
+
+class FeedbackSignal(StrEnum):
+    THUMBS_UP = "thumbs_up"
+    THUMBS_DOWN = "thumbs_down"
+    AGENT_EDIT = "agent_edit"
+    RESOLVED = "resolved"
+    ESCALATED = "escalated"
+
+
+class FeedbackRequest(BaseModel):
+    request_id: str = Field(..., min_length=1)
+    signal: FeedbackSignal
+    comment: str = ""
+    corrected_answer: str = ""
+    agent_id: str = ""
+    tags: list[str] = Field(default_factory=list)
+
+
+class FeedbackResponse(BaseModel):
+    request_id: str
+    status: str = "recorded"
+
+
+class MetricsResponse(BaseModel):
+    total_requests: int
+    answered: int
+    abstained: int
+    escalated: int
+    blocked: int
+    total_cost_usd: float
+    total_latency_ms: int
+    deflection_rate: float
+    escalation_rate: float
+    avg_latency_ms: float
+    avg_cost_usd: float
