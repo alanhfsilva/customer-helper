@@ -78,7 +78,7 @@ class TestMarkdownConnector:
     def test_iterates_documents(self) -> None:
         connector = MarkdownConnector(FIXTURES)
         docs = list(connector.iter_documents())
-        assert len(docs) == 2
+        assert len(docs) == 5
 
     def test_extracts_title(self) -> None:
         connector = MarkdownConnector(FIXTURES)
@@ -128,7 +128,7 @@ class TestPipeline:
 
     def test_ingests_all_documents(self) -> None:
         store, _, report = self._run()
-        assert report.documents_processed == 2
+        assert report.documents_processed == 5
         assert report.chunks_created > 0
         assert store.list_document_ids()
 
@@ -142,7 +142,7 @@ class TestPipeline:
         _, _, report2 = self._run(store=store, llm=llm2)
 
         assert len(llm2.embed_calls) == 0
-        assert report2.documents_skipped == 2
+        assert report2.documents_skipped == 5
         assert report2.documents_processed == 0
 
     def test_changed_doc_reembeds_only_changed(self) -> None:
@@ -159,7 +159,7 @@ class TestPipeline:
         _, _, report2 = self._run(store=store, llm=llm2)
 
         assert report2.documents_processed == 1
-        assert report2.documents_skipped == 1
+        assert report2.documents_skipped == 4
         assert len(llm2.embed_calls) == 1
 
     def test_report_produced(self) -> None:
