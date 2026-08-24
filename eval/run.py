@@ -8,7 +8,7 @@ from pathlib import Path
 
 from app.generation.generator import generate_answer
 from app.llm.client import FakeLLMClient
-from app.llm.models import EmbeddingResult, EmbeddingUsage
+from app.llm.fake_embeddings import bag_of_words_embed
 from app.retrieval.keyword import KeywordIndex
 from app.retrieval.memory_store import InMemoryVectorStore
 from app.retrieval.retriever import HybridRetriever
@@ -22,43 +22,11 @@ from eval.harness import (
 )
 
 ARTIFACTS_DIR = Path(__file__).resolve().parent.parent / "artifacts" / "eval"
-EMBED_DIM = 256
-
-_VOCAB: dict[str, int] = {}
-
-
-def _word_index(word: str) -> int:
-    if word not in _VOCAB:
-        _VOCAB[word] = len(_VOCAB) % EMBED_DIM
-    return _VOCAB[word]
-
-
-def _text_to_embedding(text: str) -> list[float]:
-    vec = [0.0] * EMBED_DIM
-    words = text.lower().split()
-    for w in words:
-        vec[_word_index(w)] += 1.0
-    norm = sum(v * v for v in vec) ** 0.5
-    if norm > 0:
-        vec = [v / norm for v in vec]
-    return vec
 
 
 def _make_eval_llm() -> FakeLLMClient:
-    llm = FakeLLMClient(embeddings_dim=EMBED_DIM)
-
-    def embed_fn(texts: list[str]) -> EmbeddingResult:
-        embeddings = [_text_to_embedding(t) for t in texts]
-        return EmbeddingResult(
-            embeddings=embeddings,
-            usage=EmbeddingUsage(
-                prompt_tokens=sum(len(t.split()) * 2 for t in texts),
-                cost_usd=0.0,
-                request_id=str(uuid.uuid4()),
-            ),
-        )
-
-    llm.embed = embed_fn  # type: ignore[method-assign]
+    llm = FakeLLMClient(embeddings_dim=256)
+    llm.embed = bag_of_words_embed  # type: ignore[method-assign]
     return llm
 
 

@@ -1,10 +1,13 @@
-.PHONY: dev test lint typecheck ingest eval install
+.PHONY: dev serve test lint typecheck ingest eval install
 
 install:
 	pip install -e ".[dev]"
 
 dev:
 	docker compose up --build
+
+serve:
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 test: lint typecheck unittest
 
