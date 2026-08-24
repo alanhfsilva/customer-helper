@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import StrEnum
 from typing import Any
 
@@ -23,7 +23,7 @@ class Document:
     content_raw: str
     content_hash: str
     metadata: dict[str, Any] = field(default_factory=dict)
-    fetched_at: datetime = field(default_factory=datetime.utcnow)
+    fetched_at: datetime = field(default_factory=lambda: datetime.now(tz=UTC))
 
 
 @dataclass(frozen=True)

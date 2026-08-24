@@ -18,6 +18,7 @@ def _cosine_similarity(a: list[float], b: list[float]) -> float:
 class InMemoryVectorStore:
     def __init__(self) -> None:
         self._chunks: dict[str, Chunk] = {}
+        self._doc_hashes: dict[str, str] = {}
 
     def upsert(self, chunks: list[Chunk]) -> None:
         for chunk in chunks:
@@ -66,6 +67,15 @@ class InMemoryVectorStore:
         return [
             cid for cid, c in self._chunks.items() if c.document_id == document_id
         ]
+
+    def get_document_hash(self, document_id: str) -> str | None:
+        return self._doc_hashes.get(document_id)
+
+    def set_document_hash(self, document_id: str, content_hash: str) -> None:
+        self._doc_hashes[document_id] = content_hash
+
+    def list_document_ids(self) -> list[str]:
+        return list(self._doc_hashes.keys())
 
     @staticmethod
     def _matches_filters(chunk: Chunk, filters: dict[str, Any]) -> bool:
