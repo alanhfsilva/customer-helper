@@ -1,0 +1,5 @@
+chunk_target_tokens: 400
+chunk_max_tokens: 500
+chunk_overlap_fraction: 0.15
+embedding_batch_size: 100
+embedding_concurrency: 5

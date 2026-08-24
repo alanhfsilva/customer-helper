@@ -1,0 +1,10 @@
+answer_accuracy_floor: 0.80
+faithfulness_floor: 0.95
+retrieval_recall_at_5: 0.85
+retrieval_mrr: 0.70
+grounding_score_floor: 0.80
+max_input_length: 4000
+max_output_tokens: 1024
+generation_temperature: 0.2
+context_token_budget: 3000
+p95_latency_ms: 4000

@@ -1,0 +1,6 @@
+k: 5
+fetch_n: 20
+score_threshold: 0.3
+low_confidence_floor: 0.4
+hybrid_alpha: 0.7
+rerank_enabled: false

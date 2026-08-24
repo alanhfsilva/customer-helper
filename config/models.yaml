@@ -1,0 +1,5 @@
+chat_model: "gpt-4o-2024-08-06"
+chat_model_fallback: "gpt-4o-mini-2024-07-18"
+embedding_model: "text-embedding-3-small"
+embedding_dimensions: 1536
+moderation_model: "omni-moderation-latest"
