@@ -9,6 +9,7 @@ from app.api.dependencies import (
     get_feedback_store,
     get_llm_client,
     get_metrics_collector,
+    get_rate_limiter,
     get_retriever,
     get_settings,
 )
@@ -35,6 +36,15 @@ def _verify_api_key(
     return x_api_key
 
 
+def _check_rate_limit(
+    api_key: str = Depends(_verify_api_key),
+) -> str:
+    limiter = get_rate_limiter()
+    if not limiter.is_allowed(api_key):
+        raise HTTPException(status_code=429, detail="Rate limit exceeded")
+    return api_key
+
+
 @router.get("/healthz")
 async def healthz() -> dict[str, str]:
     return {"status": "ok"}
@@ -43,7 +53,7 @@ async def healthz() -> dict[str, str]:
 @router.post("/chat", response_model=ChatResponse)
 async def chat(
     request: ChatRequest,
-    _api_key: str = Depends(_verify_api_key),
+    _api_key: str = Depends(_check_rate_limit),
 ) -> ChatResponse:
     conversation_id = request.conversation_id or str(uuid.uuid4())
 
@@ -90,7 +100,7 @@ async def chat(
 @router.post("/feedback", response_model=FeedbackResponse)
 async def feedback(
     request: FeedbackRequest,
-    _api_key: str = Depends(_verify_api_key),
+    _api_key: str = Depends(_check_rate_limit),
 ) -> FeedbackResponse:
     store = get_feedback_store()
 

@@ -27,3 +27,6 @@ jobs:
 
       - name: Test
         run: pytest tests/ -v
+
+      - name: Eval gate
+        run: python -m eval.run --dataset golden
