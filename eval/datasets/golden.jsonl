@@ -1,0 +1,10 @@
+{"question": "How long do refunds take?", "reference_answer": "Refunds are processed within 5-10 business days.", "expected_source_ids": ["billing:0", "billing:1"], "category": "billing", "should_abstain": false}
+{"question": "How long does standard shipping take?", "reference_answer": "Standard shipping takes 5-7 business days.", "expected_source_ids": ["shipping:0"], "category": "shipping", "should_abstain": false}
+{"question": "How do I track my order?", "reference_answer": "You can track your order with the tracking number provided.", "expected_source_ids": ["shipping:1"], "category": "shipping", "should_abstain": false}
+{"question": "What is your return policy?", "reference_answer": "You can return items within 30 days for a full refund.", "expected_source_ids": ["returns:0"], "category": "returns", "should_abstain": false}
+{"question": "How do I reset my password?", "reference_answer": "You can reset your password from the login page.", "expected_source_ids": ["account:0"], "category": "account", "should_abstain": false}
+{"question": "How do I enable two-factor authentication?", "reference_answer": "You can enable two-factor authentication from your security settings.", "expected_source_ids": ["account:1"], "category": "account", "should_abstain": false}
+{"question": "What are your enterprise pricing plans?", "reference_answer": "Enterprise plans start at $99 per month.", "expected_source_ids": ["pricing:0"], "category": "pricing", "should_abstain": false}
+{"question": "How do I update my payment method?", "reference_answer": "You can update your payment method in your account settings.", "expected_source_ids": ["billing:0"], "category": "billing", "should_abstain": false}
+{"question": "What is the meaning of life?", "reference_answer": "", "expected_source_ids": [], "category": "out_of_scope", "should_abstain": true}
+{"question": "Can you write me a poem about the moon?", "reference_answer": "", "expected_source_ids": [], "category": "out_of_scope", "should_abstain": true}
